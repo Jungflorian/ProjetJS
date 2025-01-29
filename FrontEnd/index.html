@@ -38,7 +38,13 @@
 
 	<section id="portfolio">
 		<h2>Mes Projets</h2>
-		<div class="gallery">Chargement des projets...</div>
+		<nav class="filtres">
+			<div class="btn-tous"></div>
+			<div class="btn-objets"></div>
+			<div class="btn-appart"></div>
+			<div class="btn-hotel"></div>
+		</nav>
+		<div class="gallerie">Chargement des projets...</div>
 	</section>
 
 	<section id="contact">
@@ -71,8 +77,7 @@
 				throw new Error("Erreur lors de la récupération des projets");
 			}
 			const projects = await response.json();
-
-			const gallery = document.querySelector(".gallery");
+			const gallery = document.querySelector(".gallerie");
 			gallery.innerHTML = "";
 
 			projects.forEach(project => {
@@ -85,7 +90,7 @@
 			});
 		} catch (error) {
 			console.error("Erreur :", error);
-			document.querySelector(".gallery").innerText = "Impossible de charger les projets.";
+			document.querySelector(".gallerie").innerText = "Impossible de charger les projets.";
 		}
 	}
 	fetchProjects();
