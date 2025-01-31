@@ -38,12 +38,7 @@
 
 	<section id="portfolio">
 		<h2>Mes Projets</h2>
-		<nav class="filtres">
-			<div class="btn-tous"></div>
-			<div class="btn-objets"></div>
-			<div class="btn-appart"></div>
-			<div class="btn-hotel"></div>
-		</nav>
+		<div id="filtre"></div>
 		<div class="gallerie">Chargement des projets...</div>
 	</section>
 
@@ -69,31 +64,6 @@
 		</ul>
 	</nav>
 </footer>
-<script>
-	async function fetchProjects() {
-		try {
-			const response = await fetch("http://localhost:5678/api/works");
-			if (!response.ok) {
-				throw new Error("Erreur lors de la récupération des projets");
-			}
-			const projects = await response.json();
-			const gallery = document.querySelector(".gallerie");
-			gallery.innerHTML = "";
-
-			projects.forEach(project => {
-				const figure = document.createElement("figure");
-				figure.innerHTML = `
-					<img src="${project.imageUrl}" alt="${project.title}">
-					<figcaption>${project.title}</figcaption>
-				`;
-				gallery.appendChild(figure);
-			});
-		} catch (error) {
-			console.error("Erreur :", error);
-			document.querySelector(".gallerie").innerText = "Impossible de charger les projets.";
-		}
-	}
-	fetchProjects();
-</script>
+<script src="./script.js" defer></script>
 </body>
 </html>
