@@ -186,3 +186,30 @@ footer nav ul {
 	margin: 2em
 }
 
+#filtre{
+	display: flex;
+	gap: 10px;
+	justify-content: center;
+	padding-bottom: 30px;
+	height: 37px;
+	
+}
+.filter-btn {
+	border:1px solid #1D6154;
+	border-radius: 60px;
+	font-family:'Syne';
+}
+.filter-btn.active{
+	background-color: #1D6154;
+	color: white;
+}
+#filtre_all, #filtre_objet{
+	width: 10%;
+	
+}
+#filtre_appartements{
+	width: 15%;
+}
+#filtre_hotel_resto{
+	width: 20%;
+}
