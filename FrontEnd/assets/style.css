@@ -23,6 +23,7 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 }
+
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
@@ -212,4 +213,56 @@ footer nav ul {
 }
 #filtre_hotel_resto{
 	width: 20%;
+}
+#login{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 30px;
+}
+#loginForm{
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+	width: 100%;
+	align-items:center;
+}
+#login button{
+	border-radius: 60px;
+	background-color: #1D6154;
+	color: white;
+	height: 36px;
+	border-width: 0px;
+	font-family: syne;
+	width: 15%;
+}
+#email{
+	display: flex;
+	flex-direction: column;
+	width: 33%;
+}
+#mdp{
+	display: flex;
+	flex-direction: column;
+	width: 33%;
+}
+#email label{
+	font-size: 16px;
+	color: #3D3D3D;
+	width: 33%;
+}
+#mdp label{
+	font-size: 16px;
+	color: #3D3D3D;
+	width: 33%;
+}
+#loginForm input{
+	border-width: 0px;
+	box-shadow: 0px 4px 14px 0px #00000017;
+	height: 51px;
+	width: 100%;
+}
+#login a{
+	color: #3D3D3D;
+	font-family: 'Work Sans';
 }
