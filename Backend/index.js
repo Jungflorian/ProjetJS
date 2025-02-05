@@ -3,21 +3,20 @@ let categories = {};
 async function fetchCategories() {
     try {
         const response = await fetch("http://localhost:5678/api/categories");
-        if (!response.ok) throw new Error("Erreur lors de la récupération des catégories");
+        if (!response.ok) throw new Error("Problème lors de la récupération des catégories");
 
         const data = await response.json();
-        console.log("Catégories récupérées :", data);
+        categories = data.reduce((acc, cat) => {
+            acc[cat.id] = cat.name.toLowerCase(); // Assure-toi que le format correspond
+            return acc;
+        }, {});
 
-        if (!Array.isArray(data)) {
-            throw new Error("Format inattendu des catégories");
-        }
-
-        categories = Object.fromEntries(data.map(cat => [cat.id, cat.name.toLowerCase()]));
-        console.log("Categories mappées :", categories);
+        console.log(" Catégories récupérées :", categories);
     } catch (error) {
-        console.error("Erreur lors de la récupération des catégories :", error);
+        console.error("Erreur de récupération des catégories :", error);
     }
 }
+
 
 async function fetchProjects(category = 'all') {
     try {
@@ -85,3 +84,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     await fetchProjects();  
     setupFilters();
 });
+
+
+const token = sessionStorage.getItem("authToken")
+console.log(token)

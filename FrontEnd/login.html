@@ -1,51 +1,52 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-	<meta charset="UTF-8">
-	<title>Sophie Bluel - Architecte d'intérieur</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
-	<meta name="description" content="">
-	<link rel="stylesheet" href="./assets/style.css">
-</head>
-<body>
-<header>
-	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
-	<nav>
-		<ul>
-			<li>projets</li>
-			<li>contact</li>
-			<li>login</li>
-			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
-		</ul>
-	</nav>
-</header>
-<main>
-    <section id ="login">
-        <h2>Log in </h2>
-        <form id="loginForm">
-            <div id="email">
-            <label for="email">E-mail</label>
-            <input type="email" id="email" name="email" required>
-        </div>
-            <div id="mdp">
-            <label for="password">Mot de passe</label>
-            <input type="password" id="password" name="password" required>
-        </div>
-            <button type="submit">Se connecter</button>
-            <p id="error-message" style="color: red; display: none;">Email ou mot de passe incorrect.</p>
-            <a href="#">Mot de passe oublié</a>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sophie Bluel - Architecte d'intérieur</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="./assets/login.css" />
+    <link rel="stylesheet" href="./assets/style.css" />
+	<script src="../Backend/login.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
+      <nav>
+        <ul>
+          <li>projets</li>
+          <li>contact</li>
+          <li>login</li>
+          <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <section id="login">
+        <h2>Log in</h2>
+        <form id="loginForm" action="./index.html" method="POST">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" name="email"/>
+          <label for="password">Mot de passe</label>
+          <input type="password" id="password" name="password"/>
+          <button type="submit" id="seconnecter">Se connecter</button>
+          <p id="error-message">Email ou mot de passe incorrect.</p>
+          <a href="#">Mot de passe oublié</a>
         </form>
-    </section>
-</main>
-<footer>
-    <nav>
-		<ul>
-			<li>Mentions Légales</li>
-		</ul>
-	</nav>
-</footer>
-</body>
+      </section>
+    </main>
+    <footer>
+      <nav>
+        <ul>
+          <li>Mentions Légales</li>
+        </ul>
+      </nav>
+    </footer>
+  </body>
 </html>

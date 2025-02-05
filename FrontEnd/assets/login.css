@@ -24,29 +24,12 @@ time, mark, audio, video {
 	vertical-align: baseline;
 }
 
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
-	display: block;
-}
-body {
-	line-height: 1;
-}
-ol, ul {
-	list-style: none;
-}
-blockquote, q {
-	quotes: none;
-}
 blockquote:before, blockquote:after,
 q:before, q:after {
 	content: '';
 	content: none;
 }
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
+
 /** end reset css**/
 body {
 	max-width: 1140px;
@@ -59,9 +42,7 @@ header {
 	justify-content: space-between;
 	margin: 50px 0
 }
-section {
-	margin: 50px 0
-}
+
 
 h1{
 	display: flex;
@@ -99,45 +80,7 @@ nav li {
 li:hover {
 	color: #B1663C;
 }
-#introduction {
-	display: flex;
-	align-items: center;
-}
-#introduction figure {
-	flex: 1
-}
-#introduction img {
-	display: block;
-	margin: auto;
-	width: 80%;
-}
 
-#introduction article {
-	flex: 1
-}
-#introduction h2 {
-	margin-bottom: 1em;
-}
-
-#introduction p {
-	margin-bottom: 0.5em;
-}
-#portfolio h2 {
-	text-align: center;
-	margin-bottom: 1em;
-}
-.gallerie {
-	width: 100%;
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-column-gap: 20px;
-	grid-row-gap: 20px;
-}
-
-.gallerie img {
-	width: 100%;
-
-}
 #contact {
 	width: 50%;
 margin: auto;
@@ -185,25 +128,6 @@ footer nav ul {
 	display: flex;
 	justify-content: flex-end;
 	margin: 2em
-}
-
-#filtre{
-	display: flex;
-	gap: 10px;
-	justify-content: center;
-	padding-bottom: 30px;
-	height: 37px;
-	
-}
-.filter-btn {
-	border:1px solid #1D6154;
-	border-radius: 60px;
-	font-family:'Syne';
-	background-color: white;
-}
-.filter-btn.active{
-	background-color: #1D6154;
-	color: white;
 }
 
 #login{
@@ -258,19 +182,6 @@ footer nav ul {
 	color: #3D3D3D;
 	font-family: 'Work Sans';
 }
-button[data-category="all"]{
-	width: 9%;
-}
-button[data-category="objets"]{
-	width: 9%;
-}
-button[data-category="appartements"]{
-	width: 14%;
-}
-button[data-category="hotels & restaurants"]{
-	width: 18%;
-}
-
 a {
     color: black;
     text-decoration: none;
@@ -278,4 +189,15 @@ a {
 
 a:hover {
     color: #B1663C;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Cette ligne permet de prendre toute la hauteur de la fenêtre */
+}
+
+footer {
+    margin-top: auto; /* Cela pousse le footer vers le bas de la page */
+    font-size: 12px; 
 }
