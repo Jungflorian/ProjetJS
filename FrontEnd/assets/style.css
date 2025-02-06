@@ -279,3 +279,15 @@ a {
 a:hover {
     color: #B1663C;
 }
+
+#login input{
+	width: 33%;
+}
+#adminHeader{
+	style=display: none; 
+	background: black; 
+	color: white; 
+	text-align: center; 
+	padding: 20px;
+	width: 100%;
+}
