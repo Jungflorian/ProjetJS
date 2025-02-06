@@ -90,17 +90,14 @@ const token = sessionStorage.getItem("authToken")
 document.addEventListener("DOMContentLoaded", function () {
     const adminHeader = document.getElementById("adminHeader");
     const authLink = document.getElementById("authLink");
-    const authToken = sessionStorage.getItem("authToken"); // Vérifie si l'utilisateur est connecté
+    const authToken = sessionStorage.getItem("authToken");
   
     if (authToken) {
-      // Si l'utilisateur est connecté, afficher le mode édition et changer le lien login en logout
       adminHeader.style.display = "block";
       authLink.innerHTML = `<a href="#" id="logout" style="cursor: pointer;">Logout</a>`;
-  
-      // Gestion du clic sur Logout
       document.getElementById("logout").addEventListener("click", function () {
-        sessionStorage.removeItem("authToken"); // Supprime le token de session
-        window.location.href = "./login.html"; // Redirige vers la page de connexion
+        sessionStorage.removeItem("authToken");
+        window.location.href = "./login.html";
       });
     }
   });
