@@ -284,10 +284,13 @@ a:hover {
 	width: 33%;
 }
 #adminHeader{
-	style=display: none; 
+	display: none; 
 	background: black; 
 	color: white; 
 	text-align: center; 
 	padding: 20px;
 	width: 100%;
+	right:0;
+	top:0;
+	position:absolute;
 }

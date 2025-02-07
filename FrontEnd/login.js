@@ -2,7 +2,7 @@ const loginForm = document.getElementById("loginForm");
 const errorMessage = document.createElement("p");
 errorMessage.style.color = "red";
 errorMessage.style.display = "none";
-loginForm.appendChild(errorMessage); // Ajout du message d'erreur sous le formulaire
+loginForm.appendChild(errorMessage);
 
 loginForm.addEventListener("submit", async function (event) {
   event.preventDefault();
@@ -36,7 +36,6 @@ loginForm.addEventListener("submit", async function (event) {
   }
 });
 if (replogin.status === 200) {
-  sessionStorage.setItem("authToken", reploginData.token); // Stocke le token
-  window.location.href = "./index.html"; // Redirige vers l'accueil
+  sessionStorage.setItem("authToken", reploginData.token);
+  window.location.href = "./index.html";
 }
-

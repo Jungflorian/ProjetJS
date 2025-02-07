@@ -1,4 +1,4 @@
-let categories = {};
+
 
 async function fetchCategories() {
     try {
@@ -16,7 +16,6 @@ async function fetchCategories() {
         console.error("Erreur de récupération des catégories :", error);
     }
 }
-
 
 async function fetchProjects(category = 'all') {
     try {
@@ -102,3 +101,48 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
   
+  document.addEventListener("DOMContentLoaded", function () {
+    const adminHeader = document.getElementById("adminHeader");
+    const authLink = document.getElementById("authLink");
+    const authToken = sessionStorage.getItem("authToken");
+  
+    if (authToken && authToken.trim() !== "") {
+      adminHeader.style.display = "block";
+      authLink.innerHTML = `<a href="#" id="logout" style="cursor: pointer;">Logout</a>`;
+  
+      // Gestion du clic sur Logout
+      document.getElementById("logout").addEventListener("click", function () {
+        sessionStorage.removeItem("authToken");
+        window.location.href = "./login.html";
+      });
+    } else {
+      adminHeader.style.display = "none";
+    }
+  });
+  
+  document.addEventListener("DOMContentLoaded", function () {
+    const adminHeader = document.getElementById("adminHeader");
+    const header = document.querySelector("header");
+    const authToken = sessionStorage.getItem("authToken");
+
+    if (authToken && authToken.trim() !== "") {  
+        adminHeader.style.display = "block";  
+        header.style.paddingTop = "50px";
+    } else {
+        adminHeader.style.display = "none";
+        header.style.paddingTop = "0px"; 
+    }
+});
+document.addEventListener("DOMContentLoaded", function () {
+    const adminHeader = document.getElementById("adminHeader");
+    const authToken = sessionStorage.getItem("authToken");
+    const filtre = document.getElementById("filtre");
+
+    if (authToken && authToken.trim() !== "") {  
+        adminHeader.style.display = "block";  
+        filtre.style.display = "none";
+    } else {
+        adminHeader.style.display = "none";
+        filtre.style.display = "flex";
+    }
+});
