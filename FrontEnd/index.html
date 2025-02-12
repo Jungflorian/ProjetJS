@@ -9,6 +9,8 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
 	<script src="./index.js" defer></script>
 </head>
 <body>
@@ -41,7 +43,19 @@
 	</section>
 
 	<section id="portfolio">
+		<div id="projetmodif">
 		<h2>Mes Projets</h2>
+		<a href="#modal1" class="js-modal">
+			<i class="fa-regular fa-pen-to-square"></i> Modifier
+		</a>
+		<aside id="modal1" class="modal" style="display: none;">
+			<div class="modal-wrapper js-modal-stop">
+				<button class="js-modal-close">Fermer la boite modale</button>
+				<h3>Gallerie photo</h3>
+				<div class="modalGallery"></div>
+			</div>
+		</aside>
+	</div>
 		<div id="filtre">
 			<button class="filter-btn" data-category="all">Tous</button>
 			<button class="filter-btn" data-category="objets">Objets</button>
@@ -50,7 +64,6 @@
 		</div>
 		<div class="gallerie">Chargement des projets...</div>
 	</section>
-
 	<section id="contact">
 		<h2>Contact</h2>
 		<p>Vous avez un projet ? Discutons-en !</p>
@@ -73,6 +86,5 @@
 		</ul>
 	</nav>
 </footer>
-
 </body>
 </html>

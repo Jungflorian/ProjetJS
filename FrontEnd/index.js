@@ -110,7 +110,6 @@ document.addEventListener("DOMContentLoaded", function () {
       adminHeader.style.display = "block";
       authLink.innerHTML = `<a href="#" id="logout" style="cursor: pointer;">Logout</a>`;
   
-      // Gestion du clic sur Logout
       document.getElementById("logout").addEventListener("click", function () {
         sessionStorage.removeItem("authToken");
         window.location.href = "./login.html";
@@ -144,5 +143,49 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
         adminHeader.style.display = "none";
         filtre.style.display = "flex";
+    }
+});
+
+let modal = null
+const openModal = function(e){
+    e.preventDefault()
+    const target = document.querySelector(e.target.getAttribute('href'))
+    target.style.display= null
+    modal = target
+    modal.addEventListener('click',closeModal)
+    modal.querySelector('.js-modal-close').addEventListener('click',closeModal)
+    modal.querySelector('.js-modal-stop').addEventListener('click',stopPropagation)
+};
+
+const closeModal = function(e){
+    if (modal === null) return
+    e.preventDefault()
+    modal.style.display= "none"
+    modal.removeEventListener('click',closeModal)
+    modal.querySelector('.js-modal-close').removeEventListener('click',closeModal)
+    modal.querySelector('.js-modal-stop').removeEventListener('click',stopPropagation)
+    modal = null
+}
+document.querySelectorAll('.js-modal').forEach(a => {
+    a.addEventListener('click',openModal)
+})
+
+const stopPropagation = function (e) {
+    e.stopPropagation()
+}
+
+window.addEventListener('keydown',function (e){
+    if (e.key ==="Escape"|| e.key === "Esc"){
+        closeModal(e)
+    }
+})
+document.addEventListener("DOMContentLoaded", function () {
+    const authToken = sessionStorage.getItem("authToken");
+    const editButton = document.querySelector("#projetmodif a.js-modal"); 
+
+    if (authToken && authToken.trim() !== "") {
+        editButton.style.display = "inline-block"; // Affiche le bouton
+    } else {
+        editButton.style.display = "none"; // Cache le bouton
     }
 });
