@@ -309,10 +309,10 @@ a:hover {
 .modal-wrapper{
 	background-color: white;
 	width: 630px;
-	max-width: 100vw;
-	max-height: 100vh;
+	height: 680px;
 	padding: 20px;
 	overflow: auto;
+	border-radius: 10px;
 }
 #projetmodif{
 	display: flex;
@@ -324,19 +324,68 @@ a:hover {
 .js-modal i{
 	font-size: 16px;
 }
-.modal-gallery {
+.modalGallery {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    max-height: 400px;
-    overflow-y: auto; /* Scroll si trop d'images */
-    padding: 10px;
+    gap: 20px;
+    max-height: 688px;
+    overflow-y: auto;
+   padding: 40px 80px 40px 80px;
 }
 
-.modal-gallery img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
+.modalGallery img {
+    width: 77px;
+    height: 102px;
     border-radius: 5px;
-    cursor: pointer;
+	border-radius: 0px;
+}
+.modalGallery figcaption{
+	display: none;
+}
+
+.modalGallery figure{
+	height: 102px;
+}
+.ajout-projet{
+	font-family: 'Syne';
+    font-weight: 700;
+    color: white;
+    background-color: #1D6154;
+    margin: 2em auto;
+    width: 237px;
+	height: 36px;
+    text-align: center;
+    border-radius: 60px;
+	border: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+button.js-modal-close{
+	border: none;
+	background-color: white;
+	width: 100%;
+	height: 24px;
+	display: flex;
+	justify-content: flex-end;
+}
+
+.fa-xmark{
+	width: 24px;
+	height: 24px;
+	display: flex;
+	justify-content: flex-end;
+}
+
+.modal-wrapper h3{
+	height: 30px;
+	font-size: 26px;
+	display: flex;
+	justify-content: center;
+}
+
+hr{
+	width: 66%;
+	
 }
