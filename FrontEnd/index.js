@@ -1,3 +1,4 @@
+// Fonction pour appeler les categories via l'API
 async function fetchCategories() {
     try {
         const response = await fetch("http://localhost:5678/api/categories");
@@ -204,3 +205,130 @@ document.addEventListener("DOMContentLoaded", function () {
         editButton.style.display = "none"; 
     }
 });
+
+let filteredProjects = [];
+
+async function fetchProjects(category = 'all') {
+    try {
+        if (Object.keys(categories).length === 0) {
+            console.warn("Les catégories ne sont pas encore chargées. Attente...");
+            await fetchCategories();
+        }
+
+        console.log("Récupération des projets...");
+        const response = await fetch("http://localhost:5678/api/works");
+        if (!response.ok) throw new Error("Erreur lors de la récupération des projets");
+
+        const projects = await response.json();
+        console.log("Projets récupérés :", projects);
+
+        projects.forEach(proj => {
+            console.log(`Projet : ${proj.title}, categoryId: ${proj.categoryId}, Mapped: ${categories[proj.categoryId]}`);
+        });
+
+        filteredProjects = category === 'all'
+            ? projects
+            : projects.filter(proj => categories[proj.categoryId] === category);
+
+        console.log(`Projets filtrés pour "${category}" :`, filteredProjects);
+
+        const gallery = document.querySelector(".gallerie");
+        gallery.innerHTML = ""; 
+
+        if (filteredProjects.length === 0) {
+            gallery.innerHTML = `<p>Aucun projet trouvé pour "${category}".</p>`;
+        } else {
+            filteredProjects.forEach(proj => {
+                const figure = document.createElement("figure");
+                figure.innerHTML = `
+                    <img src="${proj.imageUrl}" alt="${proj.title}">
+                    <figcaption>${proj.title}</figcaption>
+                `;
+                gallery.appendChild(figure);
+            });
+        }
+
+        const modalGallery = document.querySelector(".modalGallery");
+        modalGallery.innerHTML = "";
+
+        filteredProjects.forEach(proj => {
+            const modalFigure = document.createElement("figure");
+            modalFigure.style.position = "relative";
+            modalFigure.innerHTML = `
+                <img src="${proj.imageUrl}" alt="${proj.title}">
+                <figcaption>${proj.title}</figcaption>
+                <button class="delete-btn" data-id="${proj.id}">
+                    <i class="fa-solid fa-trash-can"></i>
+                </button>
+            `;
+            modalGallery.appendChild(modalFigure);
+        });
+
+    } catch (error) {
+        console.error("Erreur lors du chargement des projets :", error);
+        document.querySelector(".gallerie").innerText = "Impossible de charger les projets.";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelector(".modalGallery").addEventListener("click", async (event) => {
+        const button = event.target.closest(".delete-btn");
+        if (!button) return;
+
+        const projectId = button.dataset.id;
+
+        try {
+            const authToken = sessionStorage.getItem("authToken");
+            if (!authToken) throw new Error("Utilisateur non authentifié");
+
+            const response = await fetch(`http://localhost:5678/api/works/${projectId}`, {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${authToken}`,
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (!response.ok) throw new Error("Erreur lors de la suppression");
+
+            console.log(`Projet ${projectId} supprimé avec succès`);
+
+            const modalFigure = button.closest("figure");
+            modalFigure.classList.add("fade-out");
+            setTimeout(() => modalFigure.remove(),);
+
+            document.querySelectorAll(".gallerie figure").forEach(fig => {
+                if (fig.dataset.id === projectId) {
+                    fig.classList.add("fade-out");
+                    setTimeout(() => fig.remove(),);
+                }
+            });
+
+            filteredProjects = filteredProjects.filter(proj => proj.id != projectId);
+            updateGallery();
+
+        } catch (error) {
+            console.error("Échec de la suppression :", error);
+            alert("Impossible de supprimer ce projet.");
+        }
+    });
+});
+
+function updateGallery() {
+    const gallery = document.querySelector(".gallerie");
+    gallery.innerHTML = ""; 
+
+    if (filteredProjects.length === 0) {
+        gallery.innerHTML = `<p>Aucun projet trouvé.</p>`;
+    } else {
+        filteredProjects.forEach(proj => {
+            const figure = document.createElement("figure");
+            figure.dataset.id = proj.id;
+            figure.innerHTML = `
+                <img src="${proj.imageUrl}" alt="${proj.title}">
+                <figcaption>${proj.title}</figcaption>
+            `;
+            gallery.appendChild(figure);
+        });
+    }
+}

@@ -380,6 +380,7 @@ button.js-modal-close{
 	height: 24px;
 	display: flex;
 	justify-content: flex-end;
+	cursor: pointer;
 }
 
 .modal-wrapper h3{
@@ -393,4 +394,30 @@ hr{
 	width: 66%;
 	margin-top: 50px;
 	margin-bottom: 50px;
+}
+.project-image {
+    width: 100%; 
+    height: auto; 
+    display: block;
+    border-radius: 8px;
+}
+
+.delete-btn {
+	width: 17px;
+	height: 17px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(0, 0, 0, 1);
+    color: #fff;
+    border: none;
+    border-radius: 10%;
+	cursor:	pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.modalGallery i {
+font-size: 11px;
 }
