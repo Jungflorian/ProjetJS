@@ -332,3 +332,29 @@ function updateGallery() {
         });
     }
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    const modal1 = document.getElementById("modal1");
+    const modal2 = document.getElementById("modal2");
+    const btnOpenModal2 = document.querySelector(".ajout-projet"); 
+    const btnCloseModals = document.querySelectorAll(".js-modal-close");
+
+    btnOpenModal2.addEventListener("click", function () {
+        modal1.style.display = "none";
+        modal2.style.display = "flex";
+    });
+
+    btnCloseModals.forEach((btn) => {
+        btn.addEventListener("click", function () {
+            modal1.style.display = "none";
+            modal2.style.display = "none";
+        });
+    });
+
+    document.addEventListener("click", function (event) {
+        if (event.target.classList.contains("modal")) {
+            modal1.style.display = "none";
+            modal2.style.display = "none";
+        }
+    });
+});

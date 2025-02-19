@@ -55,9 +55,34 @@
 				<div class="modalGallery"></div>
 				<hr>
 				<button class="ajout-projet">Ajouter une photo</button>
-				<aside id="modal2" class="modal" style="display: none;">
-					<div class="modal-wrapper">	</div>
-				</aside>
+			</div>
+		</aside>
+		<aside id="modal2" class="modal" style="display: none;">
+			<div class="modal-wrapper js-modal-stop">
+				<button class="js-modal-close"><i class="fa-solid fa-xmark"></i></button>
+				<h3>Ajout photo</h3>
+				<form class="box" method="post">
+					<div class="inser-photo">
+					<input type="file" id="photo2" accept="image/*" hidden>
+					<i class="fa-solid fa-image"></i>
+					<label for="photo2" class="btn-upload"> + Ajouter photo</label>
+					<p>jpg, png : 4mo max</p>
+				</div>
+					<div class="title">
+						<label for="titre">Titre</label>
+						<input type="text" class="titre-input">
+					</div>
+					<div class="cate">
+						<label for="categorie">Catégorie</label>
+						<select id="categorie">
+							<option value="none"></option>
+							<option value="objets">Objets</option>
+							<option value="appartements">Appartements</option>
+							<option value="hotels">Hôtels & Restaurants</option>
+						</select>
+					</div>
+					<button type="submit" class="btn-valider">Valider</button>
+				</form>
 			</div>
 		</aside>
 	</div>

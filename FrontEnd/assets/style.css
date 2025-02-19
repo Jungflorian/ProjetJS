@@ -339,9 +339,9 @@ a:hover {
 .modalGallery img {
     width: 77px;
     height: 102px;
-    border-radius: 5px;
-	border-radius: 0px;
+    border-radius: 0px;
 }
+
 .modalGallery figcaption{
 	display: none;
 }
@@ -420,4 +420,85 @@ hr{
 
 .modalGallery i {
 font-size: 11px;
+}
+
+.modal-wrapper form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+	font-family: 'Work Sans';
+}
+
+.btn-valider{
+	font-family: 'Syne';
+    font-weight: 700;
+    color: white;
+    background-color: #1D6154;
+    margin: 2em auto;
+    width: 237px;
+	height: 36px;
+    text-align: center;
+    border-radius: 60px;
+	border: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.titre-input {
+	height: 50px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+select{
+	height: 50px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+.cate{
+	display: flex;
+	flex-direction: column;
+	width: 420px;
+	gap: 10px;
+}
+
+.title{
+	width: 420px;
+	display: flex;
+	flex-direction: column;
+	gap:10px;
+}
+
+.inser-photo{
+	width: 420px;
+	height: 168px;
+}
+
+.inser-photo{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: #E8F1F6;
+	justify-content: space-evenly;
+}
+
+.fa-image{
+	color: #B9C5CC;
+	font-size: 69px;
+}
+
+.btn-upload{
+	background-color: #CBD6DC;
+	height: 36px;
+	display: flex;
+	align-items: center;
+	color: #306685;
+	border-radius: 50%;
+	width: 173px;
+	justify-content: center;
 }
