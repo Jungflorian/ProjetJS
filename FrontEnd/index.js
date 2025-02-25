@@ -1,4 +1,4 @@
-// Fonction pour appeler les categories via l'API
+let categories = {};
 async function fetchCategories() {
     try {
         const response = await fetch("http://localhost:5678/api/categories");
@@ -357,4 +357,25 @@ document.addEventListener("DOMContentLoaded", function () {
             modal2.style.display = "none";
         }
     });
+});
+
+document.getElementById('file-input').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const preview = document.getElementById('preview');
+            preview.src = e.target.result;
+            preview.style.display = 'block';  // Afficher l'aperçu
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+document.getElementById("file-input").addEventListener("change", function() {
+    if (this.files.length > 0) { 
+        document.getElementById("icon").style.display = "none";
+        document.getElementById("info-txt").style.display = "none";
+        document.getElementById("btn-ajout").style.display = "none";
+    }
 });

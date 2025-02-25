@@ -388,6 +388,7 @@ button.js-modal-close{
 	font-size: 26px;
 	display: flex;
 	justify-content: center;
+	padding-top: 15px;
 }
 
 hr{
@@ -501,4 +502,25 @@ select{
 	border-radius: 50%;
 	width: 173px;
 	justify-content: center;
+}
+
+#btn-ajout{
+	background-color:#CBD6DC;
+	height: 36px;
+	width: 173px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50px;
+	color: #306685;
+}
+
+#preview {
+    padding: 5px;
+	display: none;
+	max-height: 160px;
+}
+
+#file-input{
+	display: none;
 }

@@ -64,9 +64,11 @@
 				<form class="box" method="post">
 					<div class="inser-photo">
 					<input type="file" id="photo2" accept="image/*" hidden>
-					<i class="fa-solid fa-image"></i>
-					<label for="photo2" class="btn-upload"> + Ajouter photo</label>
-					<p>jpg, png : 4mo max</p>
+					<i class="fa-solid fa-image" id="icon"></i>
+					<input type="file" id="file-input" accept="image/*">
+					<label for="file-input" id="btn-ajout"> + Ajouter photo </label>
+					<img id="preview" src="" alt="Aperçu de l'image" >
+					<p id="info-txt">jpg, png : 4mo max</p>
 				</div>
 					<div class="title">
 						<label for="titre">Titre</label>
@@ -81,6 +83,7 @@
 							<option value="hotels">Hôtels & Restaurants</option>
 						</select>
 					</div>
+					<hr>
 					<button type="submit" class="btn-valider">Valider</button>
 				</form>
 			</div>
