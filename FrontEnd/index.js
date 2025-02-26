@@ -16,6 +16,87 @@ async function fetchCategories() {
     }
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+    // Récupération des catégories et des projets dès le chargement de la page
+    fetchCategories();
+    fetchProjects();
+
+    // Configuration des filtres
+    setupFilters();
+
+    // Gérer l'affichage de l'interface d'administration en fonction du token d'authentification
+    const adminHeader = document.getElementById("adminHeader");
+    const authLink = document.getElementById("authLink");
+    const authToken = sessionStorage.getItem("authToken");
+    const header = document.querySelector("header");
+    const editButton = document.querySelector("#projetmodif a.js-modal");
+
+    if (authToken && authToken.trim() !== "") {
+        adminHeader.style.display = "block";  
+        header.style.paddingTop = "50px";
+        filtre.style.display = "none";
+        authLink.innerHTML = `<a href="#" id="logout" style="cursor: pointer;">Logout</a>`;
+        editButton.style.display = "inline-block";
+
+        document.getElementById("logout").addEventListener("click", function () {
+            sessionStorage.removeItem("authToken");
+            window.location.href = "./login.html";
+        });
+    } else {
+        adminHeader.style.display = "none";
+        header.style.paddingTop = "0px";
+        filtre.style.display = "flex"; 
+        editButton.style.display = "none"; 
+    }
+
+    // Gestion de l'affichage des modaux
+    const modal1 = document.getElementById("modal1");
+    const modal2 = document.getElementById("modal2");
+    const btnOpenModal2 = document.querySelector(".ajout-projet"); 
+    const btnCloseModals = document.querySelectorAll(".js-modal-close");
+
+    btnOpenModal2.addEventListener("click", function () {
+        modal1.style.display = "none";
+        modal2.style.display = "flex";
+    });
+
+    btnCloseModals.forEach((btn) => {
+        btn.addEventListener("click", function () {
+            modal1.style.display = "none";
+            modal2.style.display = "none";
+        });
+    });
+
+    document.addEventListener("click", function (event) {
+        if (event.target.classList.contains("modal")) {
+            modal1.style.display = "none";
+            modal2.style.display = "none";
+        }
+    });
+
+    // Gestion de l'affichage du fichier sélectionné dans l'input
+    document.getElementById('file-input').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('preview');
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    document.getElementById("file-input").addEventListener("change", function() {
+        if (this.files.length > 0) { 
+            document.getElementById("icon").style.display = "none";
+            document.getElementById("info-txt").style.display = "none";
+            document.getElementById("btn-ajout").style.display = "none";
+        }
+    });
+});
+
 async function fetchProjects(category = 'all') {
     try {
         if (Object.keys(categories).length === 0) {
@@ -102,73 +183,9 @@ function setupFilters() {
     });
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
-    await fetchCategories();  
-    await fetchProjects();  
-    setupFilters();
-});
 
 const token = sessionStorage.getItem("authToken")
 
-document.addEventListener("DOMContentLoaded", function () {
-    const adminHeader = document.getElementById("adminHeader");
-    const authLink = document.getElementById("authLink");
-    const authToken = sessionStorage.getItem("authToken");
-  
-    if (authToken) {
-      adminHeader.style.display = "block";
-      authLink.innerHTML = `<a href="#" id="logout" style="cursor: pointer;">Logout</a>`;
-      document.getElementById("logout").addEventListener("click", function () {
-        sessionStorage.removeItem("authToken");
-        window.location.href = "./login.html";
-      });
-    }
-  });
-  
-  document.addEventListener("DOMContentLoaded", function () {
-    const adminHeader = document.getElementById("adminHeader");
-    const authLink = document.getElementById("authLink");
-    const authToken = sessionStorage.getItem("authToken");
-  
-    if (authToken && authToken.trim() !== "") {
-      adminHeader.style.display = "block";
-      authLink.innerHTML = `<a href="#" id="logout" style="cursor: pointer;">Logout</a>`;
-  
-      document.getElementById("logout").addEventListener("click", function () {
-        sessionStorage.removeItem("authToken");
-        window.location.href = "./login.html";
-      });
-    } else {
-      adminHeader.style.display = "none";
-    }
-  });
-  
-  document.addEventListener("DOMContentLoaded", function () {
-    const adminHeader = document.getElementById("adminHeader");
-    const header = document.querySelector("header");
-    const authToken = sessionStorage.getItem("authToken");
-
-    if (authToken && authToken.trim() !== "") {  
-        adminHeader.style.display = "block";  
-        header.style.paddingTop = "50px";
-    } else {
-        adminHeader.style.display = "none";
-        header.style.paddingTop = "0px"; 
-    }
-});
-document.addEventListener("DOMContentLoaded", function () {
-    const adminHeader = document.getElementById("adminHeader");
-    const authToken = sessionStorage.getItem("authToken");
-    const filtre = document.getElementById("filtre");
-
-    if (authToken && authToken.trim() !== "") {  
-        adminHeader.style.display = "block";  
-        filtre.style.display = "none";
-    } else {
-        adminHeader.style.display = "none";
-        filtre.style.display = "flex";
-    }
-});
 
 let modal = null
 
@@ -195,16 +212,7 @@ window.addEventListener('keydown',function (e){
         closeModal(e)
     }
 })
-document.addEventListener("DOMContentLoaded", function () {
-    const authToken = sessionStorage.getItem("authToken");
-    const editButton = document.querySelector("#projetmodif a.js-modal"); 
 
-    if (authToken && authToken.trim() !== "") {
-        editButton.style.display = "inline-block";
-    } else {
-        editButton.style.display = "none"; 
-    }
-});
 
 let filteredProjects = [];
 
@@ -270,49 +278,7 @@ async function fetchProjects(category = 'all') {
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    document.querySelector(".modalGallery").addEventListener("click", async (event) => {
-        const button = event.target.closest(".delete-btn");
-        if (!button) return;
 
-        const projectId = button.dataset.id;
-
-        try {
-            const authToken = sessionStorage.getItem("authToken");
-            if (!authToken) throw new Error("Utilisateur non authentifié");
-
-            const response = await fetch(`http://localhost:5678/api/works/${projectId}`, {
-                method: "DELETE",
-                headers: {
-                    "Authorization": `Bearer ${authToken}`,
-                    "Content-Type": "application/json",
-                },
-            });
-
-            if (!response.ok) throw new Error("Erreur lors de la suppression");
-
-            console.log(`Projet ${projectId} supprimé avec succès`);
-
-            const modalFigure = button.closest("figure");
-            modalFigure.classList.add("fade-out");
-            setTimeout(() => modalFigure.remove(),);
-
-            document.querySelectorAll(".gallerie figure").forEach(fig => {
-                if (fig.dataset.id === projectId) {
-                    fig.classList.add("fade-out");
-                    setTimeout(() => fig.remove(),);
-                }
-            });
-
-            filteredProjects = filteredProjects.filter(proj => proj.id != projectId);
-            updateGallery();
-
-        } catch (error) {
-            console.error("Échec de la suppression :", error);
-            alert("Impossible de supprimer ce projet.");
-        }
-    });
-});
 
 function updateGallery() {
     const gallery = document.querySelector(".gallerie");
@@ -333,31 +299,7 @@ function updateGallery() {
     }
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    const modal1 = document.getElementById("modal1");
-    const modal2 = document.getElementById("modal2");
-    const btnOpenModal2 = document.querySelector(".ajout-projet"); 
-    const btnCloseModals = document.querySelectorAll(".js-modal-close");
 
-    btnOpenModal2.addEventListener("click", function () {
-        modal1.style.display = "none";
-        modal2.style.display = "flex";
-    });
-
-    btnCloseModals.forEach((btn) => {
-        btn.addEventListener("click", function () {
-            modal1.style.display = "none";
-            modal2.style.display = "none";
-        });
-    });
-
-    document.addEventListener("click", function (event) {
-        if (event.target.classList.contains("modal")) {
-            modal1.style.display = "none";
-            modal2.style.display = "none";
-        }
-    });
-});
 
 document.getElementById('file-input').addEventListener('change', function(event) {
     const file = event.target.files[0];
@@ -366,7 +308,7 @@ document.getElementById('file-input').addEventListener('change', function(event)
         reader.onload = function(e) {
             const preview = document.getElementById('preview');
             preview.src = e.target.result;
-            preview.style.display = 'block';  // Afficher l'aperçu
+            preview.style.display = 'block';
         };
         reader.readAsDataURL(file);
     }
