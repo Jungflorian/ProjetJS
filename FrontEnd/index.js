@@ -1,4 +1,4 @@
-let categories = {};
+let categories = [];
 async function fetchCategories() {
     try {
         const response = await fetch("http://localhost:5678/api/categories");
@@ -17,14 +17,10 @@ async function fetchCategories() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Récupération des catégories et des projets dès le chargement de la page
     fetchCategories();
     fetchProjects();
-
-    // Configuration des filtres
     setupFilters();
 
-    // Gérer l'affichage de l'interface d'administration en fonction du token d'authentification
     const adminHeader = document.getElementById("adminHeader");
     const authLink = document.getElementById("authLink");
     const authToken = sessionStorage.getItem("authToken");
@@ -49,7 +45,6 @@ document.addEventListener("DOMContentLoaded", function () {
         editButton.style.display = "none"; 
     }
 
-    // Gestion de l'affichage des modaux
     const modal1 = document.getElementById("modal1");
     const modal2 = document.getElementById("modal2");
     const btnOpenModal2 = document.querySelector(".ajout-projet"); 
@@ -74,7 +69,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Gestion de l'affichage du fichier sélectionné dans l'input
     document.getElementById('file-input').addEventListener('change', function(event) {
         const file = event.target.files[0];
         if (file) {
@@ -278,8 +272,6 @@ async function fetchProjects(category = 'all') {
     }
 }
 
-
-
 function updateGallery() {
     const gallery = document.querySelector(".gallerie");
     gallery.innerHTML = ""; 
@@ -299,10 +291,9 @@ function updateGallery() {
     }
 }
 
-
-
 document.getElementById('file-input').addEventListener('change', function(event) {
     const file = event.target.files[0];
+    console.log(file)
     if (file) {
         const reader = new FileReader();
         reader.onload = function(e) {
@@ -318,6 +309,44 @@ document.getElementById("file-input").addEventListener("change", function() {
     if (this.files.length > 0) { 
         document.getElementById("icon").style.display = "none";
         document.getElementById("info-txt").style.display = "none";
-        document.getElementById("btn-ajout").style.display = "none";
+        document.getElementById("file-input").style.display = "none";
     }
 });
+
+async function ecoutevalider (){
+    document.querySelector('.btn-valider').addEventListener("click",async function (e) {
+        e.preventDefault();
+        let categoriID = 0;
+        for (let i = 0 ; i < categories.length ; i++){
+            if (categories [i]=== document.getElementById('categorie').value){
+                categoriID = i + 1;
+            }
+        }
+        if (!categoriID) {
+            console.error("L'ID de la catégorie est manquant !");
+            return;
+        }
+        
+    
+        const newworks = new FormData();
+        newworks.append("image",document.getElementById('file-input').files[0]);
+        newworks.append("title",document.getElementById('titre').value);
+        newworks.append("category",categoriID);
+    console.log(newworks)
+    try{
+        const response = await fetch("http://localhost:5678/api/works",{
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${sessionStorage.getItem("authToken")}`
+            },
+            body:newworks
+        });
+        
+    } 
+    catch (Erreur){
+        console.log(Erreur)
+    }
+});
+}
+
+ecoutevalider();
