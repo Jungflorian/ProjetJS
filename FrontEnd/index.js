@@ -17,6 +17,10 @@ async function fetchCategories() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+    fetchCategories().then(populateCategorySelect);
+});
+
+document.addEventListener("DOMContentLoaded", function () {
     fetchCategories();
     fetchProjects();
     setupFilters();
@@ -304,7 +308,7 @@ document.getElementById('file-input').addEventListener('change', function(event)
         reader.readAsDataURL(file);
     }
 });
-
+// Enleve les elements si une image est ajouté 
 document.getElementById("file-input").addEventListener("change", function() {
     if (this.files.length > 0) { 
         document.getElementById("icon").style.display = "none";
@@ -316,22 +320,12 @@ document.getElementById("file-input").addEventListener("change", function() {
 async function ecoutevalider (){
     document.querySelector('.btn-valider').addEventListener("click",async function (e) {
         e.preventDefault();
-        let categoriID = 0;
-        for (let i = 0 ; i < categories.length ; i++){
-            if (categories [i]=== document.getElementById('categorie').value){
-                categoriID = i + 1;
-            }
-        }
-        if (!categoriID) {
-            console.error("L'ID de la catégorie est manquant !");
-            return;
-        }
+       const categorie = document.getElementById('categorie')
         
-    
         const newworks = new FormData();
         newworks.append("image",document.getElementById('file-input').files[0]);
         newworks.append("title",document.getElementById('titre').value);
-        newworks.append("category",categoriID);
+        newworks.append("category",categorie.value);
     console.log(newworks)
     try{
         const response = await fetch("http://localhost:5678/api/works",{
@@ -341,7 +335,14 @@ async function ecoutevalider (){
             },
             body:newworks
         });
-        
+        if (!response.ok) {
+            const errorDetails = await response.json();
+            throw new Error(
+              `Erreur HTTP ! Statut : ${
+                response.status
+              }, Détails : ${JSON.stringify(errorDetails)}`
+            );
+          }
     } 
     catch (Erreur){
         console.log(Erreur)
@@ -350,3 +351,23 @@ async function ecoutevalider (){
 }
 
 ecoutevalider();
+
+async function populateCategorySelect() {
+    try {
+        if (Object.keys(categories).length === 0) {
+            await fetchCategories(); 
+        }
+
+        const select = document.getElementById("categorie");
+        select.innerHTML = '<option value="">Sélectionner une catégorie</option>';
+
+        Object.entries(categories).forEach(([id, name]) => {
+            const option = document.createElement("option");
+            option.value = id;
+            option.textContent = name.charAt(0).toUpperCase() + name.slice(1);
+            select.appendChild(option);
+        });
+    } catch (error) {
+        console.error("Erreur lors du remplissage du select :", error);
+    }
+}
