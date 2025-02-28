@@ -1,19 +1,67 @@
 let categories = [];
-async function fetchCategories() {
-    try {
-        const response = await fetch("http://localhost:5678/api/categories");
-        if (!response.ok) throw new Error("Problème lors de la récupération des catégories");
 
-        const data = await response.json();
-        categories = data.reduce((acc, cat) => {
-            acc[cat.id] = cat.name.toLowerCase(); 
-            return acc;
-        }, {});
+function afficherprojets(tab){
+    const gallery = document.querySelector(".gallerie");
+        gallery.innerHTML = ""; 
 
-        console.log(" Catégories récupérées :", categories);
-    } catch (error) {
-        console.error("Erreur de récupération des catégories :", error);
+    if (tab.length === 0) {
+        gallery.innerHTML = `<p>Aucun projet trouvé .</p>`;
+    } else {
+        tab.forEach(proj => {
+            const figure = document.createElement("figure");
+            figure.innerHTML = `
+                <img src="${proj.imageUrl}" alt="${proj.title}">
+                <figcaption>${proj.title}</figcaption>
+            `;
+            gallery.appendChild(figure);
+        });
     }
+
+    const modalGallery = document.querySelector(".modalGallery");
+        modalGallery.innerHTML = "";
+
+        tab.forEach(proj => {
+            const modalFigure = document.createElement("figure");
+            modalFigure.innerHTML = `
+                <img src="${proj.imageUrl}" alt="${proj.title}">
+            `;
+            modalGallery.appendChild(modalFigure);
+        });
+
+}
+
+async function fetchProjects(category = 'all') {
+    try {
+        if (Object.keys(categories).length === 0) {
+            await fetchCategories();
+        }
+
+        const response = await fetch("http://localhost:5678/api/works");
+        if (!response.ok) throw new Error("Erreur lors de la récupération des projets");
+
+        const projects = await response.json();
+
+        const filteredProjects = category === 'all'
+            ? projects
+            : projects.filter(proj => categories[proj.categoryId] === category);
+
+        afficherprojets(filteredProjects);
+
+    } catch (error) {
+        console.error("Erreur dans fetchProjects :", error);
+    }
+}
+
+
+async function fetchCategories() {
+    const response = await fetch("http://localhost:5678/api/categories");
+    if (!response.ok) throw new Error("Problème lors de la récupération des catégories");
+
+    const data = await response.json();
+    categories = data.reduce((acc, cat) => {
+        acc[cat.id] = cat.name.toLowerCase(); 
+        return acc;
+    }, {});
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -95,63 +143,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-async function fetchProjects(category = 'all') {
-    try {
-        if (Object.keys(categories).length === 0) {
-            console.warn("Les catégories ne sont pas encore chargées. Attente...");
-            await fetchCategories();
-        }
 
-        console.log("Récupération des projets...");
-        const response = await fetch("http://localhost:5678/api/works");
-        if (!response.ok) throw new Error("Erreur lors de la récupération des projets");
-
-        const projects = await response.json();
-        console.log("Projets récupérés :", projects);
-
-        projects.forEach(proj => {
-            console.log(`Projet : ${proj.title}, categoryId: ${proj.categoryId}, Mapped: ${categories[proj.categoryId]}`);
-        });
-
-        const filteredProjects = category === 'all'
-            ? projects
-            : projects.filter(proj => categories[proj.categoryId] === category);
-
-        console.log(`Projets filtrés pour "${category}" :`, filteredProjects);
-
-        const gallery = document.querySelector(".gallerie");
-        gallery.innerHTML = ""; 
-
-        if (filteredProjects.length === 0) {
-            gallery.innerHTML = `<p>Aucun projet trouvé pour "${category}".</p>`;
-        } else {
-            filteredProjects.forEach(proj => {
-                const figure = document.createElement("figure");
-                figure.innerHTML = `
-                    <img src="${proj.imageUrl}" alt="${proj.title}">
-                    <figcaption>${proj.title}</figcaption>
-                `;
-                gallery.appendChild(figure);
-            });
-        }
-
-        const modalGallery = document.querySelector(".modalGallery");
-        modalGallery.innerHTML = "";
-
-        filteredProjects.forEach(proj => {
-            const modalFigure = document.createElement("figure");
-            modalFigure.innerHTML = `
-                <img src="${proj.imageUrl}" alt="${proj.title}">
-                <figcaption>${proj.title}</figcaption>
-            `;
-            modalGallery.appendChild(modalFigure);
-        });
-
-    } catch (error) {
-        console.error("Erreur lors du chargement des projets :", error);
-        document.querySelector(".gallerie").innerText = "Impossible de charger les projets.";
-    }
-}
 
 const openModal = function(e){
     e.preventDefault();
@@ -163,7 +155,6 @@ const openModal = function(e){
     modal.querySelector('.js-modal-stop').addEventListener('click', stopPropagation);
     fetchProjects();
 };
-
 
 function setupFilters() {
     const buttons = document.querySelectorAll(".filter-btn");
@@ -181,9 +172,7 @@ function setupFilters() {
     });
 }
 
-
 const token = sessionStorage.getItem("authToken")
-
 
 let modal = null
 
@@ -211,70 +200,7 @@ window.addEventListener('keydown',function (e){
     }
 })
 
-
 let filteredProjects = [];
-
-async function fetchProjects(category = 'all') {
-    try {
-        if (Object.keys(categories).length === 0) {
-            console.warn("Les catégories ne sont pas encore chargées. Attente...");
-            await fetchCategories();
-        }
-
-        console.log("Récupération des projets...");
-        const response = await fetch("http://localhost:5678/api/works");
-        if (!response.ok) throw new Error("Erreur lors de la récupération des projets");
-
-        const projects = await response.json();
-        console.log("Projets récupérés :", projects);
-
-        projects.forEach(proj => {
-            console.log(`Projet : ${proj.title}, categoryId: ${proj.categoryId}, Mapped: ${categories[proj.categoryId]}`);
-        });
-
-        filteredProjects = category === 'all'
-            ? projects
-            : projects.filter(proj => categories[proj.categoryId] === category);
-
-        console.log(`Projets filtrés pour "${category}" :`, filteredProjects);
-
-        const gallery = document.querySelector(".gallerie");
-        gallery.innerHTML = ""; 
-
-        if (filteredProjects.length === 0) {
-            gallery.innerHTML = `<p>Aucun projet trouvé pour "${category}".</p>`;
-        } else {
-            filteredProjects.forEach(proj => {
-                const figure = document.createElement("figure");
-                figure.innerHTML = `
-                    <img src="${proj.imageUrl}" alt="${proj.title}">
-                    <figcaption>${proj.title}</figcaption>
-                `;
-                gallery.appendChild(figure);
-            });
-        }
-
-        const modalGallery = document.querySelector(".modalGallery");
-        modalGallery.innerHTML = "";
-
-        filteredProjects.forEach(proj => {
-            const modalFigure = document.createElement("figure");
-            modalFigure.style.position = "relative";
-            modalFigure.innerHTML = `
-                <img src="${proj.imageUrl}" alt="${proj.title}">
-                <figcaption>${proj.title}</figcaption>
-                <button class="delete-btn" data-id="${proj.id}">
-                    <i class="fa-solid fa-trash-can"></i>
-                </button>
-            `;
-            modalGallery.appendChild(modalFigure);
-        });
-
-    } catch (error) {
-        console.error("Erreur lors du chargement des projets :", error);
-        document.querySelector(".gallerie").innerText = "Impossible de charger les projets.";
-    }
-}
 
 function updateGallery() {
     const gallery = document.querySelector(".gallerie");
@@ -308,6 +234,7 @@ document.getElementById('file-input').addEventListener('change', function(event)
         reader.readAsDataURL(file);
     }
 });
+
 // Enleve les elements si une image est ajouté 
 document.getElementById("file-input").addEventListener("change", function() {
     if (this.files.length > 0) { 
@@ -343,6 +270,12 @@ async function ecoutevalider (){
               }, Détails : ${JSON.stringify(errorDetails)}`
             );
           }
+        else {
+            let response = await fetch("http://localhost:5678/api/works");
+            let data = await response.json();
+            afficherprojets(data);
+            
+        }
     } 
     catch (Erreur){
         console.log(Erreur)
