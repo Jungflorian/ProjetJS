@@ -274,7 +274,13 @@ async function ecoutevalider (){
             let response = await fetch("http://localhost:5678/api/works");
             let data = await response.json();
             afficherprojets(data);
-            
+            document.getElementById("add-project-form").reset();
+            document.getElementById("preview").src = "";
+            document.getElementById("preview").style.display = "none";
+            document.getElementById("icon").style.display = "flex";
+            document.getElementById("info-txt").style.display = "flex";
+            document.getElementById("file-input").style.display = "none";
+            document.getElementById("btn-ajout").style.display = "flex";
         }
     } 
     catch (Erreur){
@@ -316,3 +322,27 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+function checkFormValidity() {
+    const title = document.getElementById("titre").value.trim();
+    const category = document.getElementById("categorie").value;
+    const file = document.getElementById("file-input").files.length > 0;
+    const validateBtn = document.querySelector(".btn-valider");
+
+    if (title !== "" && category !== "" && file) {
+        validateBtn.style.backgroundColor = "#1D6154";
+        validateBtn.disabled = false;
+    } else {
+        validateBtn.style.backgroundColor = "#A7A7A7"; 
+        validateBtn.style.cursor = "pointer";
+        validateBtn.disabled = true;
+    }
+}
+
+document.getElementById("titre").addEventListener("input", checkFormValidity);
+document.getElementById("categorie").addEventListener("change", checkFormValidity);
+document.getElementById("file-input").addEventListener("change", checkFormValidity);
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelector(".btn-valider").disabled = true;
+    checkFormValidity();
+});
