@@ -304,3 +304,15 @@ async function populateCategorySelect() {
         console.error("Erreur lors du remplissage du select :", error);
     }
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    const modal1 = document.getElementById("modal1");
+    const modal2 = document.getElementById("modal2");
+    const modalBackButton = document.querySelector(".js-modal-back");
+
+    modalBackButton.addEventListener("click", function () {
+        modal2.style.display = "none";  
+        modal1.style.display = "flex"; 
+    });
+});
+
