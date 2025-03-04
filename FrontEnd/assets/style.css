@@ -401,6 +401,8 @@ hr{
 
 .modalGallery i {
 font-size: 11px;
+display: flex;
+justify-content: center;
 }
 
 .modal-wrapper form {
@@ -518,5 +520,18 @@ select{
 .js-modal-back{
 	border: none;
 	background-color: white;
+	cursor: pointer;
+}
+
+.delete-btn{
+	position: absolute;
+	border: none;
+	background-color: black;
+	color: white;
+	margin-left: -20px ;
+	margin-top: 3px;
+	width: 17px;
+	height: 17px;
+	border-radius: 2px;
 	cursor: pointer;
 }

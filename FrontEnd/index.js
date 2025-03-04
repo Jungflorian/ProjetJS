@@ -24,11 +24,19 @@ function afficherprojets(tab){
             const modalFigure = document.createElement("figure");
             modalFigure.innerHTML = `
                 <img src="${proj.imageUrl}" alt="${proj.title}">
+                <button class="delete-btn" data-id="${proj.id}"><i class="fa-solid fa-trash-can"></i></button>
             `;
             modalGallery.appendChild(modalFigure);
+            document.querySelectorAll(".delete-btn").forEach(button =>{
+                button.addEventListener("click",async function () {
+                    const projectId= this.dataset.id;
+                    await supprimerProjet(projectId);                  
+                })
+            })
+            
         });
-
 }
+
 
 async function fetchProjects(category = 'all') {
     try {
@@ -317,7 +325,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const modalBackButton = document.querySelector(".js-modal-back");
 
     modalBackButton.addEventListener("click", function () {
-        modal2.style.display = "none";  
+        modal2.style.display = "none";
         modal1.style.display = "flex"; 
     });
 });
@@ -346,3 +354,26 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector(".btn-valider").disabled = true;
     checkFormValidity();
 });
+
+async function supprimerProjet(projectId) {
+    const confirmation = confirm("Voulez-vous vraiment supprimer ce projet ?");
+    if (!confirmation) return;
+
+    try {
+        const response = await fetch(`http://localhost:5678/api/works/${projectId}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${sessionStorage.getItem("authToken")}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Erreur lors de la suppression du projet");
+        }
+
+        alert("Projet supprimé avec succès !");
+        fetchProjects();
+    } catch (error) {
+        console.error("Erreur lors de la suppression :", error);
+    }
+}
