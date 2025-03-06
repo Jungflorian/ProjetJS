@@ -27,14 +27,14 @@ function afficherprojets(tab){
                 <button class="delete-btn" data-id="${proj.id}"><i class="fa-solid fa-trash-can"></i></button>
             `;
             modalGallery.appendChild(modalFigure);
-            document.querySelectorAll(".delete-btn").forEach(button =>{
-                button.addEventListener("click",async function () {
-                    const projectId= this.dataset.id;
-                    await supprimerProjet(projectId);                  
-                })
-            })
-            
-        });
+
+           document.querySelector(".modalGallery").addEventListener("click", async function (event) {
+    if (event.target.closest(".delete-btn")) {
+        const projectId = event.target.closest(".delete-btn").dataset.id;
+        await supprimerProjet(projectId);
+    }
+        });  
+    });
 }
 
 
@@ -380,9 +380,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 async function supprimerProjet(projectId) {
-    const confirmation = confirm("Voulez-vous vraiment supprimer ce projet ?");
-    if (!confirmation) return;
-
+     
     try {
         const response = await fetch(`http://localhost:5678/api/works/${projectId}`, {
             method: "DELETE",
@@ -395,12 +393,13 @@ async function supprimerProjet(projectId) {
             throw new Error("Erreur lors de la suppression du projet");
         }
 
-        alert("Projet supprimé avec succès !");
         fetchProjects();
+
     } catch (error) {
         console.error("Erreur lors de la suppression :", error);
     }
 }
+
 function removeImage() {
     document.getElementById("file-input").value = "";
     document.getElementById("preview").src = "";
@@ -426,3 +425,8 @@ document.addEventListener("DOMContentLoaded", function () {
         resetModal(); // Réinitialise la modale au retour
     });
 });
+
+// Error: Parse error on line 1:
+// let categories = [];
+// ^
+// Expecting 'STRING', 'NUMBER', 'NULL', 'TRUE', 'FALSE', '{', '[', got 'undefined'
