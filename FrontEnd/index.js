@@ -425,8 +425,3 @@ document.addEventListener("DOMContentLoaded", function () {
         resetModal(); // Réinitialise la modale au retour
     });
 });
-
-// Error: Parse error on line 1:
-// let categories = [];
-// ^
-// Expecting 'STRING', 'NUMBER', 'NULL', 'TRUE', 'FALSE', '{', '[', got 'undefined'
