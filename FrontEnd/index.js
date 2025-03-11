@@ -1,5 +1,6 @@
 let categories = [];
 
+// affichage des projets dans la gallerie et dans la modale 1 
 function afficherprojets(tab){
     const gallery = document.querySelector(".gallerie");
         gallery.innerHTML = ""; 
@@ -37,7 +38,7 @@ function afficherprojets(tab){
     });
 }
 
-
+// fonction aasynchrone qui recupere tout les projets 
 async function fetchProjects(category = 'all') {
     try {
         if (Object.keys(categories).length === 0) {
@@ -60,6 +61,7 @@ async function fetchProjects(category = 'all') {
     }
 }
 
+// fonction asynchrone pour recuperer les categories 
 
 async function fetchCategories() {
     const response = await fetch("http://localhost:5678/api/categories");
@@ -75,6 +77,8 @@ async function fetchCategories() {
 document.addEventListener("DOMContentLoaded", function () {
     fetchCategories().then(populateCategorySelect);
 });
+
+// Vérifie que l'utilisateur est connecté pour acceder a l'interface d'édition
 
 document.addEventListener("DOMContentLoaded", function () {
     fetchCategories();
@@ -142,14 +146,6 @@ document.addEventListener("DOMContentLoaded", function () {
             reader.readAsDataURL(file);
         }
     });
-
-    document.getElementById("file-input").addEventListener("change", function() {
-        if (this.files.length > 0) { 
-            document.getElementById("icon").style.display = "none";
-            document.getElementById("info-txt").style.display = "none";
-            document.getElementById("btn-ajout").style.display = "none";
-        }
-    });
 });
 
 const openModal = function(e){
@@ -179,15 +175,20 @@ function setupFilters() {
     });
 }
 
+// Garde le token d'authentification lors de la connexion 
+
 const token = sessionStorage.getItem("authToken")
 
 let modal = null
+
+// Fonction pour réinitialiser les modales 
 
 function resetModal() {
     document.getElementById("add-project-form").reset(); // Réinitialise le formulaire
     removeImage(); // Supprime l'aperçu de l'image
 } 
 
+// constante pour fermer une modale 
 const closeModal = function(e){
     if (modal === null) return
     e.preventDefault()
@@ -202,18 +203,22 @@ document.querySelectorAll('.js-modal').forEach(a => {
     a.addEventListener('click',openModal)
 })
 
+// Fonction pour eviter la propagation de la fermeture de la modale lors d'un clic 
 const stopPropagation = function (e) {
     e.stopPropagation()
 }
 
+// possibilité de fermer les modales avec le bouton echap 
 window.addEventListener('keydown',function (e){
     if (e.key ==="Escape"|| e.key === "Esc"){
         closeModal(e)
     }
 })
 
+
 let filteredProjects = [];
 
+// fonction pour mettre a jour la gallerie
 function updateGallery() {
     const gallery = document.querySelector(".gallerie");
     gallery.innerHTML = ""; 
@@ -266,16 +271,7 @@ document.getElementById("file-input").addEventListener("change", () => {
     }
 });
 
-
-// Enleve les elements si une image est ajouté 
-document.getElementById("file-input").addEventListener("change", function() {
-    if (this.files.length > 0) { 
-        document.getElementById("icon").style.display = "none";
-        document.getElementById("info-txt").style.display = "none";
-        document.getElementById("file-input").style.display = "none";
-    }
-});
-
+// fonction asynchrone pour valider l'envoie du projet,l'afficher et réinisialiser la modale 
 async function ecoutevalider (){
     document.querySelector('.btn-valider').addEventListener("click",async function (e) {
         e.preventDefault();
@@ -323,6 +319,7 @@ async function ecoutevalider (){
 
 ecoutevalider();
 
+// fonction asynchrone pour selectionner une catégorie dans la modale 2 
 async function populateCategorySelect() {
     try {
         if (Object.keys(categories).length === 0) {
@@ -342,7 +339,7 @@ async function populateCategorySelect() {
         console.error("Erreur lors du remplissage du select :", error);
     }
 }
-
+// Evenemet qui permet de revenir en arriere entre la modale 2 et 1  
 document.addEventListener("DOMContentLoaded", function () {
     const modal1 = document.getElementById("modal1");
     const modal2 = document.getElementById("modal2");
@@ -353,6 +350,7 @@ document.addEventListener("DOMContentLoaded", function () {
         modal1.style.display = "flex"; 
     });
 });
+// Verification de la validité des elements pour afficher le bouton validé dansz la bonne couleur 
 
 function checkFormValidity() {
     const title = document.getElementById("titre").value.trim();
@@ -379,6 +377,8 @@ document.addEventListener("DOMContentLoaded", () => {
     checkFormValidity();
 });
 
+// fonction asynchrone pour pouvoir supprimer un projet 
+
 async function supprimerProjet(projectId) {
      
     try {
@@ -400,6 +400,8 @@ async function supprimerProjet(projectId) {
     }
 }
 
+// fonction pour supprimer l'image de la modale numero 2 et remettre l'input pour pouvoir re ajouter un projet 
+
 function removeImage() {
     document.getElementById("file-input").value = "";
     document.getElementById("preview").src = "";
@@ -409,11 +411,7 @@ function removeImage() {
     document.getElementById("btn-ajout").style.display = "flex";
 }
 
-function resetModal() {
-    document.getElementById("add-project-form").reset(); // Réinitialise le formulaire
-    removeImage(); // Supprime l'aperçu de l'image
-}
-
+// evenement qui réinitialise la modale si clic sur le bouton modal back
 document.addEventListener("DOMContentLoaded", function () {
     const modal1 = document.getElementById("modal1");
     const modal2 = document.getElementById("modal2");
