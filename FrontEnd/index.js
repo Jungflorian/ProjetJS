@@ -1,44 +1,6 @@
 let categories = [];
 
-// affichage des projets dans la gallerie et dans la modale 1 
-function afficherprojets(tab){
-    const gallery = document.querySelector(".gallerie");
-        gallery.innerHTML = ""; 
-
-    if (tab.length === 0) {
-        gallery.innerHTML = `<p>Aucun projet trouvé .</p>`;
-    } else {
-        tab.forEach(proj => {
-            const figure = document.createElement("figure");
-            figure.innerHTML = `
-                <img src="${proj.imageUrl}" alt="${proj.title}">
-                <figcaption>${proj.title}</figcaption>
-            `;
-            gallery.appendChild(figure);
-        });
-    }
-
-    const modalGallery = document.querySelector(".modalGallery");
-        modalGallery.innerHTML = "";
-
-        tab.forEach(proj => {
-            const modalFigure = document.createElement("figure");
-            modalFigure.innerHTML = `
-                <img src="${proj.imageUrl}" alt="${proj.title}">
-                <button class="delete-btn" data-id="${proj.id}"><i class="fa-solid fa-trash-can"></i></button>
-            `;
-            modalGallery.appendChild(modalFigure);
-
-           document.querySelector(".modalGallery").addEventListener("click", async function (event) {
-    if (event.target.closest(".delete-btn")) {
-        const projectId = event.target.closest(".delete-btn").dataset.id;
-        await supprimerProjet(projectId);
-    }
-        });  
-    });
-}
-
-// fonction aasynchrone qui recupere tout les projets 
+// fonction asynchrone qui recupere tout les projets 
 async function fetchProjects(category = 'all') {
     try {
         if (Object.keys(categories).length === 0) {
@@ -77,6 +39,46 @@ async function fetchCategories() {
 document.addEventListener("DOMContentLoaded", function () {
     fetchCategories().then(populateCategorySelect);
 });
+
+// affichage des projets dans la gallerie et dans la modale 1 
+function afficherprojets(tab){
+    const gallery = document.querySelector(".gallerie");
+        gallery.innerHTML = ""; 
+
+    if (tab.length === 0) {
+        gallery.innerHTML = `<p>Aucun projet trouvé .</p>`;
+    } else {
+        tab.forEach(proj => {
+            const figure = document.createElement("figure");
+            figure.innerHTML = `
+                <img src="${proj.imageUrl}" alt="${proj.title}">
+                <figcaption>${proj.title}</figcaption>
+            `;
+            gallery.appendChild(figure);
+        });
+    }
+
+    const modalGallery = document.querySelector(".modalGallery");
+        modalGallery.innerHTML = "";
+
+        tab.forEach(proj => {
+            const modalFigure = document.createElement("figure");
+            modalFigure.innerHTML = `
+                <img src="${proj.imageUrl}" alt="${proj.title}">
+                <button class="delete-btn" data-id="${proj.id}"><i class="fa-solid fa-trash-can"></i></button>
+            `;
+            modalGallery.appendChild(modalFigure);
+
+           document.querySelector(".modalGallery").addEventListener("click", async function (event) {
+    if (event.target.closest(".delete-btn")) {
+        const projectId = event.target.closest(".delete-btn").dataset.id;
+        await supprimerProjet(projectId);
+    }
+        });  
+    });
+}
+
+
 
 // Vérifie que l'utilisateur est connecté pour acceder a l'interface d'édition
 
@@ -423,3 +425,5 @@ document.addEventListener("DOMContentLoaded", function () {
         resetModal(); // Réinitialise la modale au retour
     });
 });
+
+// Penser a declarer les variables avant de les utiliser et mettre des conditions sur l'existence des variables
