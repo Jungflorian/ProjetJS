@@ -35,7 +35,3 @@ loginForm.addEventListener("submit", async function (event) {
     errorMessage.style.display = "block";
   }
 });
-if (replogin.status === 200) {
-  sessionStorage.setItem("authToken", reploginData.token);
-  window.location.href = "./index.html";
-}

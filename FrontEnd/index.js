@@ -359,14 +359,15 @@ function checkFormValidity() {
     const category = document.getElementById("categorie").value;
     const file = document.getElementById("file-input").files.length > 0;
     const validateBtn = document.querySelector(".btn-valider");
+    const errorMessage = document.getElementById("error-message");
 
     if (title !== "" && category !== "" && file) {
         validateBtn.style.backgroundColor = "#1D6154";
-        validateBtn.disabled = false;
+        errorMessage.style.display = "none";
     } else {
-        validateBtn.style.backgroundColor = "#A7A7A7"; 
-        validateBtn.style.cursor = "pointer";
-        validateBtn.disabled = true;
+        validateBtn.style.backgroundColor = "#A7A7A7";
+        errorMessage.textContent = "Veuillez remplir tous les champs avant de valider.";
+        errorMessage.style.display = "block";
     }
 }
 
@@ -426,4 +427,3 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-// Penser a declarer les variables avant de les utiliser et mettre des conditions sur l'existence des variables
